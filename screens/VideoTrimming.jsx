@@ -1,16 +1,9 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  NativeEventEmitter,
-  NativeModules,
-} from 'react-native';
-import {isValidVideo, showEditor} from 'react-native-video-trim';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {useEffect} from 'react';
+import { NativeEventEmitter, NativeModules, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { isValidVideo, showEditor } from 'react-native-video-trim';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const VideoTrimming = () => {
   useEffect(() => {
@@ -53,16 +46,18 @@ const VideoTrimming = () => {
     <View style={styles.container}>
       <TouchableOpacity
         onPress={async () => {
+          console.log('onPress')
           const result = await launchImageLibrary({
             mediaType: 'video',
-            assetRepresentationMode: 'current',
           });
-
+          console.log(result);
           isValidVideo(result.assets[0]?.uri || '').then(res =>
             console.log(res),
-          );
+          ).catch((error) => {
+            console.log(error)
+          });
 
-          showEditor(result.assets[0]?.uri || '', {
+          await showEditor(result.assets[0]?.uri || '', {
             maxDuration: 20,
           });
         }}
@@ -71,6 +66,7 @@ const VideoTrimming = () => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          console.log("WORKING")
           isValidVideo('invalid file path').then(res => console.log(res));
         }}
         style={{
