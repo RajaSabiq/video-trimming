@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { NativeEventEmitter, NativeModules, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import { isValidVideo, showEditor } from 'react-native-video-trim';
 import { launchImageLibrary } from 'react-native-image-picker';
+import PhotoEditor from "@baronha/react-native-photo-editor";
 
 const VideoTrimming = () => {
   useEffect(() => {
@@ -64,17 +65,21 @@ const VideoTrimming = () => {
         style={{padding: 10, backgroundColor: 'red'}}>
         <Text>Launch Library</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          console.log("WORKING")
-          isValidVideo('invalid file path').then(res => console.log(res));
-        }}
-        style={{
-          padding: 10,
-          backgroundColor: 'blue',
-          marginTop: 20,
-        }}>
-        <Text>Check Video Valid</Text>
+        <TouchableOpacity
+          onPress={async () => {
+              console.log("EDIT PHOTO")
+              const result = await launchImageLibrary();
+              console.log(result);
+              await PhotoEditor.open({
+                  path: " https://img.freepik.com/free-photo/abstract-glowing-flame-drops-electric-illumination-generative-ai_188544-8092.jpg?t=st=1713125155~exp=1713128755~hmac=805a8d7b693f9beda36f24f7f6db3651a0fd1252131a45ab6c8cfed03ace56bd&w=740"
+              });
+          }}
+          style={{
+              padding: 10,
+              backgroundColor: 'green',
+              marginTop: 20,
+          }}>
+            <Text>Edit Photo</Text>
       </TouchableOpacity>
     </View>
   );
